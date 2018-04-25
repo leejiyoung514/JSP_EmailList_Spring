@@ -17,6 +17,7 @@ public class EmaillistController {
 	
 	@Autowired //자동으로 연결해줌 (applicationContext에 조건을 줘야함)
 	private EmaillistDao dao; //연결되어 주소를 다 가지고 있음
+	  // 컨트 롤러가 다오를 자동 연결함
 
 	@RequestMapping(value="/form", method=RequestMethod.GET)
 	public String form() {
@@ -27,15 +28,13 @@ public class EmaillistController {
 	public String add(@ModelAttribute EmailVo emailVo) {
 		System.out.println("add");
 		System.out.println(emailVo.toString());
-		EmaillistDao dao= new EmaillistDao();
 		dao.insert(emailVo);
 		
 		return"redirect:/list";
 	}
 	@RequestMapping(value="/list", method=RequestMethod.GET )
 	public String list(Model model) {
-		EmaillistDao dao=new EmaillistDao();
-		List<EmailVo> list=dao.getList();
+		List<EmailVo> list=dao.getlist();
 		model.addAttribute("list", list);
 		//디스패처서블릿한테 모델만 담으면 
 		//디스패쳐서블릿에서 알아서 request에서 꺼내서 return 주소에 전달 

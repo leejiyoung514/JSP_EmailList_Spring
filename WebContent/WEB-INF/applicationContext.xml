@@ -24,4 +24,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 <context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />    <!-- @Component를 찾음 -->
 </context:component-scan>
 
+<!-- oracle datasource -->  <!-- 인스턴스된 객체를 bean이라고 불름 -->   <!--직접사용  -->
+<bean id="oracleDatasource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+	<property name="URL" value="jdbc:oracle:thin:@localhost:1521:xe" />
+	<property name="user" value="webdb" />
+	<property name="password" value="1234" />
+	<property name="connectionCachingEnabled" value="true" />
+	<qualifier value="main-db" />
+</bean>
+
+<!-- MyBatis SqlSessionFactoryBean  설정-->     <!--위에 걸 셋팅해서 쓰겠다 -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  <!--멤버변수에 값을 넣는것  -->
+	<property name="dataSource" ref="oracleDatasource" />
+	<property name="configLocation" value="classpath:mybatis/configuration.xml" />
+</bean>
+
+
+<!-- MyBatis SqlSessionTemplate  설정-->  <!--생성자에 넣은것  -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg index="0" ref="sqlSessionFactory" />
+</bean>
+
 </beans>
+
+
+
+

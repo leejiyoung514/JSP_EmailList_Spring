@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emaillist">
+
+	<!-- 쿼리문 작성 -->
+	<insert id="insert" parameterType="EmailVo">    <!--던저준거 EmailVO -->
+	
+		<!-- Where절이 < , > 연산이 으로 인식하는 경우가 있어서 여기는 태그가 아니라 쿼리문이다라는 것을 알려줌 -->
+       <![CDATA[  
+          INSERT INTO EMAILLIST 
+          values( SEQ_EMAILLIST_NO.NEXTVAL, 
+                  #{lastName}, 
+                  #{firstName}, 
+                  #{email}
+          )
+          ]]> 	<!--getter 를 만들어내서 찾아서 치환이됨 , 그 일을 sqlsessionfactorybean이 치환해줌 -->
+
+
+	</insert>
+	
+	
+	           <!--  그릇모양써줌 알아서 while처리해서 new해줌 -->
+	<select id="list" resultType="EmailVo" >
+		<!-- 파라미터가 필요하면 parameterType="int /string "라고 써줄수 있음  -->
+		
+      <![CDATA[
+          SELECT NO, LASTNAME, FIRSTNAME, EMAIL
+          FROM EMAILLIST 
+          ORDER BY NO DESC
+  
+         ]]>
+
+	</select>
+
+	<!--             그릇모양써줌 알아서 while처리해서 new해줌
+	<select id="list" resultType="com.javaex.vo.EmailVo" >
+		파라미터가 필요하면 parameterType="int /string "라고 써줄수 있음 
+		
+      <![CDATA[
+          SELECT NO, LASTNAME, FIRSTNAME, EMAIL
+          FROM EMAILLIST 
+          ORDER BY NO DESC
+  
+         ]]>
+
+	</select> -->
+
+
+
+    	<!-- <select id="getByNo"  parameterType="int" resultType="com.javaex.vo.EmailVo" >
+		파라미터가 필요하면 parameterType="int /string "라고 써줄수 있음 
+		파라미터가 필요하면 parameterType=""라고 써줄수 있음 
+      <![CDATA[
+          SELECT NO, LASTNAME, FIRSTNAME, EMAIL
+          FROM EMAILLIST 
+          ORDER BY NO DESC
+  
+         ]]>
+
+	</select> -->
+
+
+
+
+
+
+</mapper>
